@@ -1,0 +1,80 @@
+.internal-embed.image-embed.fim-free {
+  position: absolute !important;
+  display: block !important;
+  margin: 0 !important;
+  z-index: 5;
+  touch-action: none;
+}
+
+.internal-embed.image-embed.fim-free img {
+  display: block;
+  width: 100% !important;
+  max-width: none !important;
+  height: auto !important;
+  cursor: move;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.internal-embed.image-embed.fim-free::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 14px;
+  height: 14px;
+  border-right: 3px solid var(--interactive-accent);
+  border-bottom: 3px solid var(--interactive-accent);
+  opacity: 0;
+  transition: opacity 0.15s;
+  pointer-events: none;
+}
+
+.internal-embed.image-embed.fim-free:hover::after,
+.internal-embed.image-embed.fim-free.fim-dragging::after {
+  opacity: 1;
+}
+
+.internal-embed.image-embed.fim-free.fim-dragging {
+  outline: 2px solid var(--interactive-accent);
+  outline-offset: 2px;
+}
+
+.internal-embed.image-embed.fim-free.fim-resize-hover img {
+  cursor: nwse-resize;
+}
+
+.internal-embed.image-embed.fim-free > .fim-delete {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 1;
+  padding: 4px;
+  background-color: var(--background-primary);
+  color: var(--text-muted);
+  border-radius: var(--radius-s);
+  box-shadow: var(--shadow-s);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.internal-embed.image-embed.fim-free:hover > .fim-delete,
+.internal-embed.image-embed.fim-free > .fim-delete:focus-visible {
+  opacity: 1;
+}
+
+.internal-embed.image-embed.fim-free > .fim-delete:hover {
+  color: var(--text-error);
+}
+
+.internal-embed.image-embed.fim-free.fim-dragging > .fim-delete {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Touch screens have no hover, so keep the button visible there. */
+@media (hover: none) {
+  .internal-embed.image-embed.fim-free > .fim-delete {
+    opacity: 0.85;
+  }
+}

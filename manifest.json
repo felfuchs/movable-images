@@ -1,0 +1,10 @@
+{
+  "id": "free-move-images",
+  "name": "Free Images",
+  "version": "1.0.0",
+  "minAppVersion": "1.4.0",
+  "description": "Move and resize images freely inside your notes.",
+  "author": "Felician Fuchs",
+  "authorUrl": "https://github.com/felfuchs",
+  "isDesktopOnly": false
+}
