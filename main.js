@@ -141,14 +141,15 @@ class FreeImagesPlugin extends Plugin {
     document.querySelectorAll(EMBED_SEL).forEach((embed) => {
       if (this.drag && this.drag.embed === embed) return;
       const p = parseAlt(this.getAlt(embed));
-      if (p) this.setStyle(embed, p);
-      else if (embed.classList.contains('fim-free')) this.clearStyle(embed);
+      if (p) {
+        this.setStyle(embed, p);
+        this.ensureDeleteBtn(embed);
+      } else if (embed.classList.contains('fim-free')) this.clearStyle(embed);
     });
   }
 
   setStyle(embed, p) {
     if (!embed.classList.contains('fim-free')) embed.classList.add('fim-free');
-    this.ensureDeleteBtn(embed);
     const t = `translate(${p.x}px, ${p.y}px)`;
     if (embed.style.transform !== t) embed.style.transform = t;
     const w = p.w ? `${p.w}px` : '';
@@ -159,23 +160,32 @@ class FreeImagesPlugin extends Plugin {
     embed.classList.remove('fim-free', 'fim-dragging', 'fim-resize-hover');
     embed.style.transform = '';
     embed.style.width = '';
-    embed.querySelectorAll(':scope > .fim-delete').forEach((b) => b.remove());
+    embed.querySelectorAll('.fim-delete').forEach((b) => b.remove());
   }
 
+  // In Live Preview the button joins Obsidian's own image toolbar (.embed-actions),
+  // so it never covers it. Elsewhere, or if another plugin hides that toolbar,
+  // it floats in the image's top-right corner.
   ensureDeleteBtn(embed) {
-    if (embed.querySelector(':scope > .fim-delete')) return;
-    const btn = document.createElement('button');
-    btn.className = 'fim-delete clickable-icon';
+    const toolbar = embed.querySelector(':scope > .embed-actions');
+    const inToolbar = !!toolbar && getComputedStyle(toolbar).display !== 'none';
+    const parent = inToolbar ? toolbar : embed;
+    const existing = embed.querySelector('.fim-delete');
+    if (existing && existing.parentElement === parent) return;
+    if (existing) existing.remove();
+    const btn = document.createElement('div');
+    btn.className = inToolbar ? 'embed-action fim-delete' : 'clickable-icon fim-delete fim-delete-floating';
+    btn.setAttribute('role', 'button');
     btn.setAttribute('aria-label', 'Remove image from note');
     setIcon(btn, 'trash-2');
-    embed.appendChild(btn);
+    parent.appendChild(btn);
   }
 
   /* -- mouse / touch -- */
 
   deleteBtnFromEvent(evt) {
     const t = evt.target;
-    return t instanceof Element ? t.closest('.fim-free > .fim-delete') : null;
+    return t instanceof Element ? t.closest('.fim-free .fim-delete') : null;
   }
 
   // Keep Obsidian from treating a press on the button as a click into the editor.
@@ -191,7 +201,7 @@ class FreeImagesPlugin extends Plugin {
     if (!btn) return false;
     evt.preventDefault();
     evt.stopPropagation();
-    this.save(btn.parentElement, null, null, true);
+    this.save(btn.closest(EMBED_SEL), null, null, true);
     return true;
   }
 

@@ -44,11 +44,17 @@
   cursor: nwse-resize;
 }
 
-.internal-embed.image-embed.fim-free > .fim-delete {
+/* Delete button inside Obsidian's image toolbar */
+.internal-embed.image-embed.fim-free .embed-action.fim-delete:hover {
+  color: var(--text-error);
+}
+
+/* Floating delete button (Reading view, or when the toolbar is hidden) */
+.internal-embed.image-embed.fim-free > .fim-delete-floating {
   position: absolute;
-  top: 6px;
-  right: 6px;
-  z-index: 1;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
   padding: 4px;
   background-color: var(--background-primary);
   color: var(--text-muted);
@@ -58,23 +64,41 @@
   transition: opacity 0.15s;
 }
 
-.internal-embed.image-embed.fim-free:hover > .fim-delete,
-.internal-embed.image-embed.fim-free > .fim-delete:focus-visible {
+.internal-embed.image-embed.fim-free:hover > .fim-delete-floating,
+.internal-embed.image-embed.fim-free > .fim-delete-floating:focus-visible {
   opacity: 1;
 }
 
-.internal-embed.image-embed.fim-free > .fim-delete:hover {
+.internal-embed.image-embed.fim-free > .fim-delete-floating:hover {
   color: var(--text-error);
 }
 
-.internal-embed.image-embed.fim-free.fim-dragging > .fim-delete {
-  opacity: 0;
+.internal-embed.image-embed.fim-free.fim-dragging .fim-delete,
+.internal-embed.image-embed.fim-free.fim-dragging > .embed-actions {
+  opacity: 0 !important;
   pointer-events: none;
 }
 
-/* Touch screens have no hover, so keep the button visible there. */
+/* Touch screens have no hover, so keep the floating button visible there. */
 @media (hover: none) {
-  .internal-embed.image-embed.fim-free > .fim-delete {
+  .internal-embed.image-embed.fim-free > .fim-delete-floating {
     opacity: 0.85;
   }
+}
+
+/* Free images have their own resize corner. Hide Obsidian's resize corner and
+   Image Converter's resize handles on them so they don't overlap or fight. */
+.internal-embed.image-embed.fim-free .image-resize-corner,
+.internal-embed.image-embed.fim-free .image-resize-handle {
+  display: none !important;
+}
+
+.internal-embed.image-embed.fim-free .image-resize-container {
+  display: block;
+  width: 100%;
+  max-width: none;
+}
+
+.internal-embed.image-embed.fim-free .image-resize-container::before {
+  content: none;
 }
