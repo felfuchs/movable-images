@@ -59,7 +59,7 @@ function lineToOffset(text, line) {
 
 /* -- plugin -- */
 
-class FreeImagesPlugin extends Plugin {
+class MovableImagesPlugin extends Plugin {
   async onload() {
     this.drag = null;
     this.suppressClick = false;
@@ -324,7 +324,7 @@ class FreeImagesPlugin extends Plugin {
     const view = this.viewFor(embed);
     const src = (embed.getAttribute('src') || '').trim();
     if (!view || !view.file || !src) {
-      new Notice('Free Images: Could not find the note this image belongs to.');
+      new Notice('Movable Images: Could not find the note this image belongs to.');
       return;
     }
 
@@ -359,7 +359,7 @@ class FreeImagesPlugin extends Plugin {
   }
 
   notFound() {
-    new Notice('Free Images: Link not found. Only ![[...]] image embeds are supported.');
+    new Notice('Movable Images: Link not found. Only ![[...]] image embeds are supported.');
   }
 
   toggleLine(editor, makeFree) {
@@ -368,7 +368,7 @@ class FreeImagesPlugin extends Plugin {
     const re = /!\[\[([^\]]+?)\]\]/;
     const m = text.match(re);
     if (!m) {
-      new Notice('Free Images: No image embed on this line.');
+      new Notice('Movable Images: No image embed on this line.');
       return;
     }
     const parts = m[1].split('|');
@@ -386,5 +386,5 @@ class FreeImagesPlugin extends Plugin {
   }
 }
 
-module.exports = FreeImagesPlugin;
+module.exports = MovableImagesPlugin;
 module.exports._test = { parseAlt, formatAlt, findEmbed, buildLink, lineToOffset };

@@ -1,4 +1,4 @@
-# Free Images
+# Movable Images
 
 Move and resize images freely inside your Obsidian notes.
 
@@ -41,9 +41,9 @@ If you uninstall the plugin, images simply show in their normal place again.
 
 ## Installation
 
-From Obsidian: **Settings → Community plugins → Browse**, search for "Free Images", then install and enable it.
+From Obsidian: **Settings → Community plugins → Browse**, search for "Movable Images", then install and enable it.
 
-Manually: download `main.js`, `manifest.json` and `styles.css` from the [latest release](https://github.com/felfuchs/free-move-images/releases/latest) into `<your vault>/.obsidian/plugins/free-move-images/`, then enable the plugin in **Settings → Community plugins**.
+Manually: download `main.js`, `manifest.json` and `styles.css` from the [latest release](https://github.com/felfuchs/movable-images/releases/latest) into `<your vault>/.obsidian/plugins/movable-images/`, then enable the plugin in **Settings → Community plugins**.
 
 ## License
 
